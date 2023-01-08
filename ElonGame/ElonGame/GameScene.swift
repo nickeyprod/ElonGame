@@ -23,10 +23,23 @@ class GameScene: SKScene {
     var playerIsFacingRight = true
     let playerSpeed = 5.0
     
+    // Player state
+    var playerStateMachine: GKStateMachine!
+    
     override func didMove(to view: SKView) {
         player = self.childNode(withName: "playerNode")
         joystick = childNode(withName: "joystick")
         joystickKnob = joystick?.childNode(withName: "knob")
+        
+        playerStateMachine = GKStateMachine(states: [
+            JumpingState(playerNode: player!),
+            WalkingState(playerNode: player!),
+            IdleState(playerNode: player!),
+            LandingState(playerNode: player!),
+            StunnedState(playerNode: player!)
+        ])
+        
+        playerStateMachine.enter(IdleState.self)
     }
 }
 
@@ -34,10 +47,17 @@ class GameScene: SKScene {
 // MARK: Touches
 extension GameScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
         for touch in touches {
+            
             if let joystickKnob = joystickKnob {
                 let location = touch.location(in: joystick!)
                 joystickAction = joystickKnob.frame.contains(location)
+            }
+            
+            let location = touch.location(in: self)
+            if !(joystick?.contains(location))! {
+                playerStateMachine.enter(JumpingState.self)
             }
         }
     }
@@ -66,7 +86,6 @@ extension GameScene {
         for touch in touches {
             let xJoystickCoordinate = touch.location(in: joystick!).x
             let xLimit: CGFloat = 500.0
-            print(xJoystickCoordinate)
             if xJoystickCoordinate > -xLimit && xJoystickCoordinate < xLimit {
                 resetKnobPosition()
             }
@@ -96,6 +115,14 @@ extension GameScene {
         // Player movement
         guard let joystickKnob = joystickKnob else { return }
         let xPosition = Double(joystickKnob.position.x)
+        let positivePosition = xPosition < 0 ? -xPosition : xPosition
+        
+        if floor(positivePosition) != 0 {
+            playerStateMachine.enter(WalkingState.self)
+        } else {
+            playerStateMachine.enter(IdleState.self)
+        }
+        
         let displacement = CGVector(dx: deltaTime * xPosition * playerSpeed, dy: 0)
         let move = SKAction.move(by: displacement, duration: 0)
         let faceAction: SKAction!
@@ -104,12 +131,12 @@ extension GameScene {
         
         if movingLeft && playerIsFacingRight {
             playerIsFacingRight = false
-            let faceMovement = SKAction.scaleX(to: -1.8, duration: 0.0)
+            let faceMovement = SKAction.scaleX(to: -2.8, duration: 0.0)
             faceAction = SKAction.sequence([move, faceMovement])
         }
         else if movingRight && !playerIsFacingRight {
             playerIsFacingRight = true
-            let faceMovement = SKAction.scaleX(to: 1.8, duration: 0.0)
+            let faceMovement = SKAction.scaleX(to: 2.8, duration: 0.0)
             faceAction = SKAction.sequence([move, faceMovement])
             
         }

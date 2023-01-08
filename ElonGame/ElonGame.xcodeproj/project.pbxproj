@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D1093B2F296B155200674070 /* PlayerStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1093B2E296B155200674070 /* PlayerStateMachine.swift */; };
 		D1205D0F2962287D00EAB777 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1205D0E2962287D00EAB777 /* AppDelegate.swift */; };
 		D1205D112962287D00EAB777 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D1205D102962287D00EAB777 /* GameScene.sks */; };
 		D1205D132962287D00EAB777 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D1205D122962287D00EAB777 /* Actions.sks */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D1093B2E296B155200674070 /* PlayerStateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStateMachine.swift; sourceTree = "<group>"; };
 		D1205D0B2962287D00EAB777 /* ElonGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ElonGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1205D0E2962287D00EAB777 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D1205D102962287D00EAB777 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				D1205D102962287D00EAB777 /* GameScene.sks */,
 				D1205D122962287D00EAB777 /* Actions.sks */,
 				D1205D142962287D00EAB777 /* GameScene.swift */,
+				D1093B2E296B155200674070 /* PlayerStateMachine.swift */,
 				D1205D162962287D00EAB777 /* GameViewController.swift */,
 				D1205D182962287D00EAB777 /* Main.storyboard */,
 				D1205D1B2962287E00EAB777 /* Assets.xcassets */,
@@ -146,6 +149,7 @@
 			files = (
 				D1205D152962287D00EAB777 /* GameScene.swift in Sources */,
 				D1205D172962287D00EAB777 /* GameViewController.swift in Sources */,
+				D1093B2F296B155200674070 /* PlayerStateMachine.swift in Sources */,
 				D1205D0F2962287D00EAB777 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
