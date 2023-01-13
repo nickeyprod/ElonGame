@@ -37,6 +37,9 @@ class GameScene: SKScene {
     // Player state
     var playerStateMachine: GKStateMachine!
     
+    // Animation names
+    let meteorAnimation = "meteor_animation"
+    
     override func didMove(to view: SKView) {
         
         physicsWorld.contactDelegate = self
@@ -61,6 +64,11 @@ class GameScene: SKScene {
         ])
         
         playerStateMachine.enter(IdleState.self)
+        
+        // Timer
+        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+            self.spawnMeteor()
+        }
     }
 }
 
@@ -219,6 +227,85 @@ extension GameScene: SKPhysicsContactDelegate {
             let die = SKAction.move(to: CGPoint(x: -300, y: -100), duration: 0.0)
             player?.run(die)
         }
+        
+        if collision.matches(.player, .ground) {
+            playerStateMachine.enter(LandingState.self)
+        }
+        
+        if collision.matches(.ground, .killing) {
+            if contact.bodyA.node?.name == "Meteor", let meteor = contact.bodyA.node {
+                createMolten(at: meteor.position)
+                meteor.removeFromParent()
+            }
+            
+            if contact.bodyB.node?.name == "Meteor", let meteor = contact.bodyB.node {
+                createMolten(at: meteor.position)
+                meteor.removeFromParent()
+            }
+        }
     }
 }
 
+
+// MARK: Meteor
+extension GameScene {
+    func spawnMeteor() {
+        let node = SKSpriteNode(imageNamed: "meteor/1")
+        
+        node.name = "Meteor"
+        let randomX = Int(arc4random_uniform(UInt32(self.size.width)))
+        
+        node.position = CGPoint(x: randomX, y: 270)
+        node.anchorPoint = CGPoint(x: 0.5, y: 0.4)
+        node.zPosition = 5
+        node.xScale = 0.3
+        node.yScale = 0.3
+        
+        let physicsBody = SKPhysicsBody(circleOfRadius: 30)
+        node.physicsBody = physicsBody
+        
+        physicsBody.categoryBitMask = Collision.Masks.killing.bitmask
+        physicsBody.collisionBitMask = Collision.Masks.player.bitmask | Collision.Masks.ground.bitmask
+        physicsBody.contactTestBitMask = Collision.Masks.player.bitmask | Collision.Masks.ground.bitmask
+        
+        physicsBody.fieldBitMask = Collision.Masks.player.bitmask | Collision.Masks.ground.bitmask
+        
+        physicsBody.affectedByGravity = true
+        physicsBody.allowsRotation = false
+        physicsBody.restitution = 0.2
+        physicsBody.friction = 10
+        
+        // Meteor animation
+        let textures: Array <SKTexture> = (2...11).map({ return "meteor/\($0)" }).map(SKTexture.init)
+
+        lazy var action = {
+            SKAction.repeatForever(.animate(with: textures, timePerFrame: 0.08))
+        }()
+                
+        node.run(action, withKey: meteorAnimation)
+        
+        addChild(node)
+        
+    }
+    
+    func createMolten(at position: CGPoint) {
+        let node = SKSpriteNode(imageNamed: "molten")
+        node.position.x = position.x
+        node.position.y = position.y - 46
+        node.zPosition = 4
+        node.xScale = 0.68
+        node.yScale = 0.46
+        node.colorBlendFactor = 0.2
+        
+        addChild(node)
+        
+        let action = SKAction.sequence([
+            SKAction.fadeIn(withDuration: 0.1),
+            SKAction.wait(forDuration: 1.5),
+            SKAction.fadeOut(withDuration: 0.2),
+            SKAction.removeFromParent()
+        ])
+        
+        node.run(action)
+    }
+}
