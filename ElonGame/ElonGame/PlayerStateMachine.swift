@@ -24,11 +24,22 @@ class JumpingState: PlayerState {
     var hasFinishedJumping: Bool = false
     
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {
+
+        if stateClass is StunnedState.Type {
+            return true
+        }
+    
         if hasFinishedJumping && stateClass is LandingState.Type {
             return true
         }
+        
+        if hasFinishedJumping && stateClass is IdleState.Type {
+            return true
+        }
+
         return false
     }
+    
     let textures = SKTexture(imageNamed: "player/9")
     lazy var action = {
         SKAction.animate(with: [textures], timePerFrame: 0.1)
@@ -42,7 +53,7 @@ class JumpingState: PlayerState {
         hasFinishedJumping = false
         playerNode.run(.applyForce(CGVector(dx: 0, dy: 205), duration: 0.15))
         
-        Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false) { timer in
+        Timer.scheduledTimer(withTimeInterval: 0.7, repeats: false) { timer in
             self.hasFinishedJumping = true
         }
     }
@@ -109,5 +120,35 @@ class WalkingState: PlayerState {
 }
 
 class StunnedState: PlayerState {
+    var isStunned: Bool = false
     
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
+        if isStunned { return false }
+        
+        switch stateClass {
+        case is IdleState.Type:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    let action = SKAction.repeat(.sequence([
+        .fadeAlpha(by: 0.5, duration: 0.01),
+        .wait(forDuration: 0.20),
+        .fadeAlpha(to: 0.5, duration: 0.01),
+        .wait(forDuration: 0.20),
+        .fadeAlpha(to: 1, duration: 0.01),
+    ]), count: 5)
+    
+    override func didEnter(from previousState: GKState?) {
+        isStunned = true
+        playerNode.run(action)
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
+            self.isStunned = false
+            self.stateMachine?.enter(IdleState.self)
+            
+            
+        }
+    }
 }
