@@ -27,6 +27,7 @@ class MainGame: SKScene {
     var joystickAction = false
     var rewardIsNotTouched = true
     var isHit = false
+    var immortal = false
     
     // Measure
     var knobRadius: CGFloat = 50
@@ -177,31 +178,26 @@ extension MainGame {
     }
     
     func loseHeart() {
-        if isHit == true {
+        if isHit == true && !immortal {
+            immortal = true
             let lastElementIndex = heartsArray.count - 1
             if heartsArray.indices.contains(lastElementIndex - 1) {
                 let lastHeart = heartsArray[lastElementIndex]
                 lastHeart.removeFromParent()
                 heartsArray.remove(at: lastElementIndex)
+                
                 Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { timer in
                     self.isHit = false
-                    
+                    self.immortal = false
                 }
             }
             else {
                 dying()
                 showDieScene()
             }
-            invicible()
         }
     }
-    
-    func invicible() {
-        player?.physicsBody?.categoryBitMask = 0
-        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { timer in
-            self.player?.physicsBody?.categoryBitMask = 2
-        }
-    }
+
     
     func dying() {
         let dieAction = SKAction.move(to: CGPoint(x: -300, y: 0), duration: 0.1)
@@ -314,6 +310,14 @@ extension MainGame: SKPhysicsContactDelegate {
             isHit = true
             loseHeart()
             playerStateMachine.enter(StunnedState.self)
+    
+            if contact.bodyB.node?.name == "Meteor" {
+                contact.bodyB.node?.removeFromParent()
+            }
+            
+            if contact.bodyA.node?.name == "Meteor" {
+                contact.bodyA.node?.removeFromParent()
+            }
         }
         
         if collision.matches(.player, .ground) {
@@ -321,11 +325,12 @@ extension MainGame: SKPhysicsContactDelegate {
         }
         
         if (collision.matches(.player, .reward)) {
-            if contact.bodyA.node?.name == "diamond2" {
+            print("reward")
+            if contact.bodyA.node?.name != "playerNode" {
                 contact.bodyA.node?.physicsBody?.categoryBitMask = 0
-                
+                contact.bodyA.node?.removeFromParent()
             }
-            else if contact.bodyB.node?.name == "diamond2" {
+            else if contact.bodyB.node?.name != "playerNode" {
                 contact.bodyB.node?.physicsBody?.categoryBitMask = 0
                 contact.bodyB.node?.removeFromParent()
             }
