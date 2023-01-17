@@ -19,6 +19,14 @@
 		D1205D1A2962287D00EAB777 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1205D182962287D00EAB777 /* Main.storyboard */; };
 		D1205D1C2962287E00EAB777 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1205D1B2962287E00EAB777 /* Assets.xcassets */; };
 		D1205D1F2962287E00EAB777 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1205D1D2962287E00EAB777 /* LaunchScreen.storyboard */; };
+		D195B758297560BB0057ED70 /* Level2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D195B757297560BA0057ED70 /* Level2.swift */; };
+		D195B75A297560F40057ED70 /* Level2Scene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D195B759297560F40057ED70 /* Level2Scene.sks */; };
+		D195B75C297564440057ED70 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = D195B75B297564440057ED70 /* Sound.swift */; };
+		D195B764297572F20057ED70 /* rewardSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = D195B75E297572F20057ED70 /* rewardSound.wav */; };
+		D195B765297572F20057ED70 /* levelUpSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = D195B75F297572F20057ED70 /* levelUpSound.wav */; };
+		D195B766297572F20057ED70 /* jumpSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = D195B760297572F20057ED70 /* jumpSound.wav */; };
+		D195B767297572F20057ED70 /* hitSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = D195B761297572F20057ED70 /* hitSound.wav */; };
+		D195B769297572F20057ED70 /* meteorFallingSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = D195B763297572F20057ED70 /* meteorFallingSound.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +43,14 @@
 		D1205D192962287D00EAB777 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D1205D1B2962287E00EAB777 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D1205D1E2962287E00EAB777 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D195B757297560BA0057ED70 /* Level2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level2.swift; sourceTree = "<group>"; };
+		D195B759297560F40057ED70 /* Level2Scene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Level2Scene.sks; sourceTree = "<group>"; };
+		D195B75B297564440057ED70 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
+		D195B75E297572F20057ED70 /* rewardSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = rewardSound.wav; sourceTree = "<group>"; };
+		D195B75F297572F20057ED70 /* levelUpSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = levelUpSound.wav; sourceTree = "<group>"; };
+		D195B760297572F20057ED70 /* jumpSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = jumpSound.wav; sourceTree = "<group>"; };
+		D195B761297572F20057ED70 /* hitSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hitSound.wav; sourceTree = "<group>"; };
+		D195B763297572F20057ED70 /* meteorFallingSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = meteorFallingSound.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				D1205D102962287D00EAB777 /* Level1Scene.sks */,
+				D195B759297560F40057ED70 /* Level2Scene.sks */,
 				D115BCCD2972E66D0069B075 /* GameOverScene.sks */,
 			);
 			path = GameScenes;
@@ -78,17 +95,32 @@
 			children = (
 				D115BCD42972FE560069B075 /* GameScenes */,
 				D1205D142962287D00EAB777 /* MainGame.swift */,
+				D195B757297560BA0057ED70 /* Level2.swift */,
 				D115BCD12972EF2B0069B075 /* Level1.swift */,
 				D115BCCF2972EE010069B075 /* GameOver.swift */,
 				D1093B2E296B155200674070 /* PlayerStateMachine.swift */,
+				D195B75B297564440057ED70 /* Sound.swift */,
 				D1205D162962287D00EAB777 /* GameViewController.swift */,
 				D1205D0E2962287D00EAB777 /* AppDelegate.swift */,
 				D1205D182962287D00EAB777 /* Main.storyboard */,
 				D1205D122962287D00EAB777 /* Actions.sks */,
 				D1205D1B2962287E00EAB777 /* Assets.xcassets */,
 				D1205D1D2962287E00EAB777 /* LaunchScreen.storyboard */,
+				D195B75D297572F20057ED70 /* GameSounds */,
 			);
 			path = ElonGame;
+			sourceTree = "<group>";
+		};
+		D195B75D297572F20057ED70 /* GameSounds */ = {
+			isa = PBXGroup;
+			children = (
+				D195B75E297572F20057ED70 /* rewardSound.wav */,
+				D195B75F297572F20057ED70 /* levelUpSound.wav */,
+				D195B760297572F20057ED70 /* jumpSound.wav */,
+				D195B761297572F20057ED70 /* hitSound.wav */,
+				D195B763297572F20057ED70 /* meteorFallingSound.wav */,
+			);
+			path = GameSounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,11 +181,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D195B769297572F20057ED70 /* meteorFallingSound.wav in Resources */,
 				D1205D1A2962287D00EAB777 /* Main.storyboard in Resources */,
+				D195B764297572F20057ED70 /* rewardSound.wav in Resources */,
 				D1205D112962287D00EAB777 /* Level1Scene.sks in Resources */,
 				D1205D1C2962287E00EAB777 /* Assets.xcassets in Resources */,
 				D1205D1F2962287E00EAB777 /* LaunchScreen.storyboard in Resources */,
 				D115BCCE2972E66D0069B075 /* GameOverScene.sks in Resources */,
+				D195B75A297560F40057ED70 /* Level2Scene.sks in Resources */,
+				D195B765297572F20057ED70 /* levelUpSound.wav in Resources */,
+				D195B766297572F20057ED70 /* jumpSound.wav in Resources */,
+				D195B767297572F20057ED70 /* hitSound.wav in Resources */,
 				D1205D132962287D00EAB777 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -170,7 +208,9 @@
 				D1205D172962287D00EAB777 /* GameViewController.swift in Sources */,
 				D1093B2F296B155200674070 /* PlayerStateMachine.swift in Sources */,
 				D115BCD02972EE010069B075 /* GameOver.swift in Sources */,
+				D195B758297560BB0057ED70 /* Level2.swift in Sources */,
 				D1205D0F2962287D00EAB777 /* AppDelegate.swift in Sources */,
+				D195B75C297564440057ED70 /* Sound.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

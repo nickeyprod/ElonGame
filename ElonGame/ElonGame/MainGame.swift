@@ -55,6 +55,9 @@ class MainGame: SKScene {
         
         physicsWorld.contactDelegate = self
         
+//        let soundAction = SKAction.repeatForever(SKAction.playSoundFileNamed("backgroundMusic.wav", waitForCompletion: false))
+//        run(soundAction)
+        
         player = self.childNode(withName: "playerNode")
         joystick = childNode(withName: "joystick")
         joystickKnob = joystick?.childNode(withName: "knob")
@@ -113,6 +116,7 @@ extension MainGame {
             let location = touch.location(in: self)
             if !(joystick?.contains(location))! {
                 playerStateMachine.enter(JumpingState.self)
+                run(Sound.jump.action)
             }
         }
     }
@@ -248,12 +252,12 @@ extension MainGame {
         
         if movingLeft && playerIsFacingRight {
             playerIsFacingRight = false
-            let faceMovement = SKAction.scaleX(to: -2.8, duration: 0.0)
+            let faceMovement = SKAction.scaleX(to: -4.6, duration: 0.0)
             faceAction = SKAction.sequence([move, faceMovement])
         }
         else if movingRight && !playerIsFacingRight {
             playerIsFacingRight = true
-            let faceMovement = SKAction.scaleX(to: 2.8, duration: 0.0)
+            let faceMovement = SKAction.scaleX(to: 4.6, duration: 0.0)
             faceAction = SKAction.sequence([move, faceMovement])
             
         }
@@ -308,6 +312,9 @@ extension MainGame: SKPhysicsContactDelegate {
         
         if collision.matches(.player, .killing) {
             isHit = true
+            
+            run(Sound.hit.action)
+            
             loseHeart()
             playerStateMachine.enter(StunnedState.self)
     
@@ -325,7 +332,6 @@ extension MainGame: SKPhysicsContactDelegate {
         }
         
         if (collision.matches(.player, .reward)) {
-            print("reward")
             if contact.bodyA.node?.name != "playerNode" {
                 contact.bodyA.node?.physicsBody?.categoryBitMask = 0
                 contact.bodyA.node?.removeFromParent()
@@ -339,6 +345,8 @@ extension MainGame: SKPhysicsContactDelegate {
                 rewardTouch()
                 rewardIsNotTouched = false
             }
+            
+            run(Sound.reward.action)
         }
         
         if collision.matches(.ground, .killing) {
@@ -351,6 +359,8 @@ extension MainGame: SKPhysicsContactDelegate {
                 createMolten(at: meteor.position)
                 meteor.removeFromParent()
             }
+            
+            run(Sound.meteorFalling.action)
         }
     }
 }
